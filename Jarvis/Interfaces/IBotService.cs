@@ -4,5 +4,5 @@ namespace Jarvis.Interfaces;
 
 public interface IBotService
 {
-    Task NotifyHandling(List<BotEvent> botEvents);
+    Task NotifyHandling(IEnumerable<BotEvent> botEvents);
 }

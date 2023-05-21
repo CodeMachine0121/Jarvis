@@ -1,4 +1,5 @@
-﻿using Jarvis.Interfaces;
+﻿using Jarvis.Enums;
+using Jarvis.Interfaces;
 using Jarvis.Models;
 
 namespace Jarvis.Services.EventHandlingServices;
@@ -16,8 +17,12 @@ public class FollowHandleService: IEventHandleService
 
     public async Task Handle(BotEvent botEvent)
     {
-        var user = await _lineProxy.GetUserProfile(botEvent);
-        await _lineProxy.ReplayMessage(botEvent.replyToken, $"Welcome，{user.displayName}");
+        if (botEvent.Type.ToLower() == EventType.follow.ToString())
+        {
+            var user = await _lineProxy.GetUserProfile(botEvent);
+            await _lineProxy.ReplayMessage(botEvent.ReplyToken, $"Welcome，{user.displayName}");
+            return;
+        }
         await _eventService.Handle(botEvent);
     }
 }

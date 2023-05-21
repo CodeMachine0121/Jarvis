@@ -3,7 +3,7 @@ using Jarvis.Models;
 
 namespace Jarvis.Services;
 
-public class BotService : IBotService
+public class BotService : IBotService 
 {
     private readonly IEventHandleService _eventHandleService;
 
@@ -12,7 +12,7 @@ public class BotService : IBotService
         _eventHandleService = eventHandleService;
     }
 
-    public async Task NotifyHandling(List<BotEvent> botEvents)
+    public async Task NotifyHandling(IEnumerable<BotEvent> botEvents)
     {
         foreach (var e in botEvents)
         {

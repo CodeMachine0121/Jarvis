@@ -1,4 +1,7 @@
+using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Jarvis.Interfaces;
 using Jarvis.Models;
 using Jarvis.Services;
@@ -17,19 +20,15 @@ public class LineProxy : ILineProxy
         _tokenService = tokenService;
     }
 
-    public async Task ReplayMessage(string message, string replyToken)
+    public async Task ReplayMessage(string messageToReply, string replyToken)
     {
-        var request = SetHttpRequestMessage(new Uri("/message/reply"));
+        var request = SetHttpRequestMessage(new Uri("https://api.line.me/v2/bot/message/reply"));
 
-        var messageResponse = new MessageResponse
-        {
-            replyToken = replyToken
-        };
-        messageResponse.messages.Add( new Message(){text = message});
-                
-        var JsonMessageResponse = JsonConvert.SerializeObject(messageResponse);
-                
-        request.Content = new StringContent(JsonMessageResponse);
+        var messageResponse = new MessageResponse(replyToken);
+
+        messageResponse.messages.Add(new MessageToReply(){text = messageToReply});
+
+        request.Content = new StringContent(JsonConvert.SerializeObject(messageResponse));
         request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                 
         var response = await _httpClient.SendAsync(request);
@@ -39,7 +38,7 @@ public class LineProxy : ILineProxy
 
     public async Task<UserProfile> GetUserProfile(BotEvent botEvent)
     {
-        var request = SetHttpRequestMessage(new Uri($"/bot/profile/{botEvent.source.userId}"));
+        var request = SetHttpRequestMessage(new Uri($"https://api.line.me/v2/bot/profile/{botEvent.Source.userId}"));
 
         var response = await _httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();

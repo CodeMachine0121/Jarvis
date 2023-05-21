@@ -5,6 +5,6 @@ namespace Jarvis.Interfaces;
 
 public interface ILineProxy
 {
-    Task ReplayMessage(string message, string replyToken);
+    Task ReplayMessage(string messageToReply, string replyToken);
     Task<UserProfile> GetUserProfile(BotEvent botEvent);
 }

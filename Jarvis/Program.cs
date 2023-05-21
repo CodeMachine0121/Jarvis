@@ -12,19 +12,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<TokenService>();
+builder.Services.AddHttpClient<ILineProxy, LineProxy>();
+
+builder.Services.AddTransient<IEventHandleService, MessageHandleService>();
+builder.Services.Decorate<IEventHandleService, FollowHandleService>();
+builder.Services.Decorate<IEventHandleService, UnfollowHandleService>();
+
+builder.Services.AddSingleton<IBotService, BotService>();
+
+
 var app = builder.Build();
-
-{
-    builder.Services.AddTransient<IEventHandleService, MessageHandleService>();
-    builder.Services.Decorate<IEventHandleService, FollowHandleService>();
-    builder.Services.Decorate<IEventHandleService, UnfollowHandleService>();
-
-
-    builder.Services.AddHttpClient<ILineProxy, LineProxy>(x=> x.BaseAddress = new Uri("http://localhost:5217"));
-    
-    builder.Services.AddTransient<IBotService, BotService>();
-    builder.Services.AddTransient<TokenService>(); 
-}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

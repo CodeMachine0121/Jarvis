@@ -1,4 +1,5 @@
-﻿using Jarvis.Interfaces;
+﻿using Jarvis.Enums;
+using Jarvis.Interfaces;
 using Jarvis.Models;
 
 namespace Jarvis.Services.EventHandlingServices;
@@ -14,6 +15,12 @@ public class UnfollowHandleService : IEventHandleService
 
     public async Task Handle(BotEvent botEvent)
     {
+        if (botEvent.Type.ToLower() ==EventType.unfollow.ToString())
+        {
+
+            return;
+        }
+
         await _eventHandleService.Handle(botEvent);
     }
 }
