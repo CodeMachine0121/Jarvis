@@ -6,8 +6,8 @@ namespace Jarvis.Services.EventHandlingServices;
 
 public class FollowHandleService: IEventHandleService
 {
-    private ILineProxy _lineProxy;
-    private IEventHandleService _eventService;
+    private readonly ILineProxy _lineProxy;
+    private readonly IEventHandleService _eventService;
 
     public FollowHandleService(ILineProxy lineProxy, IEventHandleService eventService)
     {
@@ -20,7 +20,7 @@ public class FollowHandleService: IEventHandleService
         if (botEvent.Type.ToLower() == EventType.follow.ToString())
         {
             var user = await _lineProxy.GetUserProfile(botEvent);
-            await _lineProxy.ReplayMessage(botEvent.ReplyToken, $"Welcome，{user.displayName}");
+            await _lineProxy.ReplayMessage($"Welcome，{user.displayName}",botEvent);
             return;
         }
         await _eventService.Handle(botEvent);

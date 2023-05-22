@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Jarvis.Interfaces;
 using Jarvis.Models;
@@ -20,34 +21,28 @@ public class LineProxy : ILineProxy
         _tokenService = tokenService;
     }
 
-    public async Task ReplayMessage(string messageToReply, string replyToken)
+    public async Task ReplayMessage(string messageToReply, BotEvent botEvent)
     {
-        var request = SetHttpRequestMessage(new Uri("https://api.line.me/v2/bot/message/reply"));
-
-        var messageResponse = new MessageResponse(replyToken);
-
+        var messageResponse = new MessageResponse(botEvent.ReplyToken);
         messageResponse.messages.Add(new MessageToReply(){text = messageToReply});
-
-        request.Content = new StringContent(JsonConvert.SerializeObject(messageResponse));
-        request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                
-        var response = await _httpClient.SendAsync(request);
+        
+        var serializeObject = JsonConvert.SerializeObject(messageResponse);
+        var stringContent = new StringContent(serializeObject, Encoding.UTF8, "application/json");
+        
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_tokenService.GetToken("line")}");
+        var response = await _httpClient.PostAsync("/v2/bot/message/reply", stringContent );
         response.EnsureSuccessStatusCode();
     }
-
 
     public async Task<UserProfile> GetUserProfile(BotEvent botEvent)
     {
-        var request = SetHttpRequestMessage(new Uri($"https://api.line.me/v2/bot/profile/{botEvent.Source.userId}"));
-
-        var response = await _httpClient.SendAsync(request);
+        var response = await _httpClient.GetAsync($"/v2/bot/profile/{botEvent.Source.userId}");
         response.EnsureSuccessStatusCode();
-        
-        var infoContent = await response.Content.ReadAsStringAsync();
 
+        var infoContent = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<UserProfile>(infoContent)!;
     }
-    
+
     private HttpRequestMessage SetHttpRequestMessage(Uri requestUri)
     {
         var request = new HttpRequestMessage(new HttpMethod("POST"), requestUri);

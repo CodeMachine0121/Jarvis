@@ -18,7 +18,7 @@ public class MessageHandleService: IEventHandleService
         if (botEvent.Type.ToLower() == EventType.message.ToString())
         {
             var responseText = "reply: "+ botEvent.Message.text; 
-            await _lineProxy.ReplayMessage(responseText, botEvent.ReplyToken); 
+            await _lineProxy.ReplayMessage(responseText, botEvent); 
         }
         return;
     }

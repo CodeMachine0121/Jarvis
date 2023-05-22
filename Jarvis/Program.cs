@@ -13,7 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<TokenService>();
-builder.Services.AddHttpClient<ILineProxy, LineProxy>();
+builder.Services.AddHttpClient<ILineProxy, LineProxy>(x=>
+{
+    x.BaseAddress = new Uri(builder.Configuration["HttpServer:line"]);
+});
 
 builder.Services.AddTransient<IEventHandleService, MessageHandleService>();
 builder.Services.Decorate<IEventHandleService, FollowHandleService>();
