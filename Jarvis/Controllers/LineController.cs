@@ -16,7 +16,7 @@ public class LineController : ControllerBase
     }
     
     [HttpPost("api/Notify")]
-    public async Task<IActionResult> Notify( WebHookEvent request)
+    public async Task<IActionResult> Notify( WebHookEventRequest request)
     {
         await _botService.NotifyHandling(request.Events.ToList());
         return Ok(request);

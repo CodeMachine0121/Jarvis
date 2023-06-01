@@ -15,14 +15,14 @@ public class FollowHandleService: IEventHandleService
         _eventService = eventService;
     }
 
-    public async Task Handle(BotEvent botEvent)
+    public async Task Handle(BotEventDto botEventDto)
     {
-        if (botEvent.Type.ToLower() == EventType.follow.ToString())
+        if (botEventDto.Type.ToLower().Equals(EventType.follow.ToString()))
         {
-            var user = await _lineProxy.GetUserProfile(botEvent);
-            await _lineProxy.ReplayMessage($"Welcome，{user.displayName}",botEvent);
+            var user = await _lineProxy.GetUserProfile(botEventDto);
+            await _lineProxy.ReplayMessage($"Welcome，{user.displayName}",botEventDto);
             return;
         }
-        await _eventService.Handle(botEvent);
+        await _eventService.Handle(botEventDto);
     }
 }

@@ -13,13 +13,12 @@ public class MessageHandleService: IEventHandleService
         _lineProxy = lineProxy;
     }
 
-    public async Task Handle(BotEvent botEvent)
+    public async Task Handle(BotEventDto botEventDto)
     {
-        if (botEvent.Type.ToLower() == EventType.message.ToString())
+        if (botEventDto.Type.ToLower() == EventType.message.ToString())
         {
-            var responseText = "reply: "+ botEvent.Message.text; 
-            await _lineProxy.ReplayMessage(responseText, botEvent); 
+            var responseText = "reply: "+ botEventDto.Message.text; 
+            await _lineProxy.ReplayMessage(responseText, botEventDto); 
         }
-        return;
     }
 }

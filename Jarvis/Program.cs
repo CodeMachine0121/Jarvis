@@ -6,7 +6,6 @@ using Jarvis.Services.EventHandlingServices;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -15,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<TokenService>();
 builder.Services.AddHttpClient<ILineProxy, LineProxy>(x=>
 {
-    x.BaseAddress = new Uri(builder.Configuration["HttpServer:line"]);
+    x.BaseAddress = new Uri(builder.Configuration["HttpServer:line"]!);
 });
 
 builder.Services.AddTransient<IEventHandleService, MessageHandleService>();

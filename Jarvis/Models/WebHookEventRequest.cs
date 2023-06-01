@@ -2,7 +2,7 @@
 
 namespace Jarvis.Models;
 
-public class WebHookEvent
+public class WebHookEventRequest
 {
     [JsonProperty("destination")]
     public string Destination { get; set; }

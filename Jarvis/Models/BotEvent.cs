@@ -27,6 +27,15 @@ public class BotEvent
     
     [JsonProperty("mode")]
     public string Mode { get; set; }
-    
-    
+
+    public BotEventDto ToBotEventDto()
+    {
+        return new BotEventDto()
+        {
+            Type = Type,
+            Message = Message,
+            Source = Source,
+            ReplyToken = ReplyToken,
+        };
+    }
 }

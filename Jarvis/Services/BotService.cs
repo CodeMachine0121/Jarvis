@@ -16,7 +16,7 @@ public class BotService : IBotService
     {
         foreach (var e in botEvents)
         {
-            await _eventHandleService.Handle(e);
+            await _eventHandleService.Handle(e.ToBotEventDto());
         }
     }
 

@@ -4,5 +4,5 @@ namespace Jarvis.Interfaces;
 
 public interface IEventHandleService
 {
-    Task Handle(BotEvent botEvent);
+    Task Handle(BotEventDto botEventDto);
 }

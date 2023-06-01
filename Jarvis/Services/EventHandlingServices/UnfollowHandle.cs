@@ -13,14 +13,14 @@ public class UnfollowHandleService : IEventHandleService
         _eventHandleService = eventHandleService;
     }
 
-    public async Task Handle(BotEvent botEvent)
+    public async Task Handle(BotEventDto botEventDto)
     {
-        if (botEvent.Type.ToLower() ==EventType.unfollow.ToString())
+        if (botEventDto.Type.ToLower() ==EventType.unfollow.ToString())
         {
 
             return;
         }
 
-        await _eventHandleService.Handle(botEvent);
+        await _eventHandleService.Handle(botEventDto);
     }
 }
