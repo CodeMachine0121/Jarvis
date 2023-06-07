@@ -18,10 +18,6 @@ builder.Services.AddHttpClient<ILineProxy, LineProxy>(x=>
     x.BaseAddress = new Uri(builder.Configuration["HttpServer:line"]!);
 });
 
-// builder.Services.AddTransient<IEventHandleService, MessageHandleService>();
-// builder.Services.Decorate<IEventHandleService, FollowHandleService>();
-// builder.Services.Decorate<IEventHandleService, UnfollowHandleService>();
-
 builder.Services.AddTransient<HandlerSetting>();
 builder.Services.AddSingleton<IBotService, BotService>();
 builder.Services.AddTransient<MessageHandler>();
