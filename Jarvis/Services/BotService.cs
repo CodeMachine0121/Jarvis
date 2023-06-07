@@ -1,24 +1,24 @@
 ﻿using Jarvis.Interfaces;
 using Jarvis.Models;
+using Jarvis.Services.Handlers;
 
 namespace Jarvis.Services;
 
-public class BotService : IBotService 
+public class BotService : IBotService
 {
-    private readonly IEventHandleService _eventHandleService;
+    private readonly HandlerSetting _handleSetting;
 
-    public BotService(IEventHandleService eventHandleService)
+    public BotService(HandlerSetting handleSetting)
     {
-        _eventHandleService = eventHandleService;
+        _handleSetting = handleSetting;
+        _handleSetting.Set();
     }
 
     public async Task NotifyHandling(IEnumerable<BotEvent> botEvents)
     {
         foreach (var e in botEvents)
         {
-            await _eventHandleService.Handle(e.ToBotEventDto());
+            await _handleSetting.Start(e.ToBotEventDto());
         }
     }
-
-   
 }

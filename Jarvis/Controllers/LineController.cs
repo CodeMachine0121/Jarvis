@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Jarvis.Controllers;
 
 [ApiController]
+[Route("api")]
 public class LineController : ControllerBase 
 {
     private readonly IBotService _botService;
@@ -15,7 +16,7 @@ public class LineController : ControllerBase
         _botService = botService;
     }
     
-    [HttpPost("api/Notify")]
+    [HttpPost("Notify")]
     public async Task<IActionResult> Notify( WebHookEventRequest request)
     {
         await _botService.NotifyHandling(request.Events.ToList());
@@ -23,7 +24,7 @@ public class LineController : ControllerBase
     }
 
     // GET
-    [HttpGet("api/health")]
+    [HttpGet("health")]
     public string Health()
     {
         return "OK";

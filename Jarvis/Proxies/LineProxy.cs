@@ -14,8 +14,9 @@ public class LineProxy : ILineProxy
     public LineProxy(HttpClient httpClient, TokenService tokenService)
     {
         _httpClient = httpClient;
-        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_tokenService!.GetToken("line")}");
         _tokenService = tokenService;
+        
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_tokenService!.GetToken("line")}");
     }
 
     public async Task ReplayMessage(string messageToReply, BotEventDto botEventDto)
