@@ -1,4 +1,5 @@
-﻿using Jarvis.Interfaces;
+﻿using System.Net;
+using Jarvis.Interfaces;
 using Jarvis.Models;
 
 namespace Jarvis.Services.Handlers;
@@ -14,7 +15,7 @@ public abstract class EventHandler
         _lineProxy = lineProxy;
     }
 
-    public abstract Task HandleEvent(BotEventDto dto);
+    public abstract Task<HttpStatusCode> HandleEvent(BotEventDto dto);
 
     protected bool IsHandlerNull()
     {

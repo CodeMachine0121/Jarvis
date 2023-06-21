@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using Jarvis.Interfaces;
 using Jarvis.Models;
@@ -19,7 +20,7 @@ public class LineProxy : ILineProxy
         _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_tokenService!.GetToken("line")}");
     }
 
-    public async Task ReplayMessage(string messageToReply, BotEventDto botEventDto)
+    public async Task<HttpStatusCode> ReplayMessage(string messageToReply, BotEventDto botEventDto)
     {
         var messageResponse = new MessageResponse(botEventDto.ReplyToken);
         messageResponse.messages.Add(new MessageToReply(){text = messageToReply});
@@ -29,6 +30,8 @@ public class LineProxy : ILineProxy
         
         var response = await _httpClient.PostAsync("/v2/bot/message/reply", stringContent );
         response.EnsureSuccessStatusCode();
+        return response.StatusCode;
+
     }
 
     public async Task<UserProfile> GetUserProfile(BotEventDto botEventDto)

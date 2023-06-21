@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Jarvis.Enums;
 using Jarvis.Interfaces;
 using Jarvis.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,14 @@ public class LineController : ControllerBase
     }
     
     [HttpPost("Notify")]
-    public async Task<IActionResult> Notify( WebHookEventRequest request)
+    public async Task<ApiResponse> Notify( WebHookEventRequest request)
     {
-        await _botService.NotifyHandling(request.Events.ToList());
-        return Ok(request);
+        var response =  await _botService.NotifyHandling(request.Events.ToList());
+
+        var returnResult = response.Any(e => e == ApiStatus.Error)
+            ? StatusCodes.Status417ExpectationFailed
+            : StatusCodes.Status200OK; 
+        return ApiResponse.SuccessWithData(returnResult);
     }
 
     // GET

@@ -1,8 +1,9 @@
-﻿using Jarvis.Models;
+﻿using Jarvis.Enums;
+using Jarvis.Models;
 
 namespace Jarvis.Interfaces;
 
 public interface IBotService
 {
-    Task NotifyHandling(IEnumerable<BotEvent> botEvents);
+    Task<List<ApiStatus>> NotifyHandling(List<BotEvent> botEvents);
 }

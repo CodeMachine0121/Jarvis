@@ -1,21 +1,26 @@
-﻿using Jarvis.Enums;
+﻿using System.Net;
+using Jarvis.Enums;
 using Jarvis.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Jarvis.Services.Handlers;
 
 public class FollowHandler : EventHandler
 {
-    public override async Task HandleEvent(BotEventDto dto)
+    public override async Task<HttpStatusCode> HandleEvent(BotEventDto dto)
     {
         if (dto.Type.ToLower().Equals(EventType.follow.ToString()))
         {
             var user = await _lineProxy.GetUserProfile(dto);
-            await _lineProxy.ReplayMessage($"Welcome，{user.displayName}", dto);
+            return await _lineProxy.ReplayMessage($"Welcome，{user.displayName}", dto);
         }
 
         if (!IsHandlerNull())
         {
-            await _eventHandler.HandleEvent(dto);
+            return await _eventHandler.HandleEvent(dto);
         }
+
+        return HttpStatusCode.OK;
+
     }
 }

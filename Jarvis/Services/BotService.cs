@@ -1,4 +1,6 @@
-﻿using Jarvis.Interfaces;
+﻿using System.Net;
+using Jarvis.Enums;
+using Jarvis.Interfaces;
 using Jarvis.Models;
 using Jarvis.Services.Handlers;
 
@@ -14,11 +16,15 @@ public class BotService : IBotService
         _handleSetting.Set();
     }
 
-    public async Task NotifyHandling(IEnumerable<BotEvent> botEvents)
+    public async Task<List<ApiStatus>> NotifyHandling(List<BotEvent> botEvents)
     {
-        foreach (var e in botEvents)
+        var apiStatusList = new List<ApiStatus>();
+
+        botEvents.ForEach(async e =>
         {
-            await _handleSetting.Start(e.ToBotEventDto());
-        }
+           apiStatusList.Add(await _handleSetting.Start(e.ToBotEventDto()));
+        });
+
+        return apiStatusList;
     }
 }

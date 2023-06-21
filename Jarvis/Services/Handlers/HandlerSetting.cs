@@ -1,4 +1,6 @@
-﻿using Jarvis.Interfaces;
+﻿using System.Net;
+using Jarvis.Enums;
+using Jarvis.Interfaces;
 using Jarvis.Models;
 
 namespace Jarvis.Services.Handlers;
@@ -24,8 +26,12 @@ public class HandlerSetting
         _followHandler.SetHandler(_unfollowHandler, _lineProxy);
     }
 
-    public async Task Start(BotEventDto dto)
+    public async Task<ApiStatus> Start(BotEventDto dto)
     {
-        await _messageHandler.HandleEvent(dto);
+        var responseCode = await _messageHandler.HandleEvent(dto);
+
+        return HttpStatusCode.OK == responseCode 
+            ? ApiStatus.Success
+            : ApiStatus.Error;
     }
 }
