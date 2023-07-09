@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jarvis", "Jarvis\Jarvis.csproj", "{41E73B26-297C-4B49-8916-CF540C80D34A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JarvisUnitTest", "JarvisUnitTest\JarvisUnitTest.csproj", "{60BB8183-9B5B-4916-9BC4-F819C465BB05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JarvisIntegrationTest", "JarvisIntegrationTest\JarvisIntegrationTest.csproj", "{60BB8183-9B5B-4916-9BC4-F819C465BB05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

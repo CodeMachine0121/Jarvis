@@ -5,8 +5,6 @@ namespace Jarvis.Models;
 
 public class ApiResponse
 {
-    private const string Hint = "hint";
-
     [JsonProperty("status")]
     public ApiStatus Status { get; set; }
 
@@ -28,17 +26,4 @@ public class ApiResponse
             Data = data
         };
     }
-    
-    public static ApiResponse Success => new()
-    {
-        Status = ApiStatus.Success
-    };
-    
-    public static ApiResponse Error => new()
-    {
-        Status = ApiStatus.Error,
-        ErrorCode = "000",
-        Message = "Unexpected error, please contact with support"
-    };
-    
 }

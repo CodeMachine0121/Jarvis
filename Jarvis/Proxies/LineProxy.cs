@@ -42,4 +42,5 @@ public class LineProxy : ILineProxy
         var infoContent = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<UserProfile>(infoContent)!;
     }
+
 }
