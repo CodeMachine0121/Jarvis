@@ -6,6 +6,7 @@ using Jarvis.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 namespace JarvisUnitTest;
 
