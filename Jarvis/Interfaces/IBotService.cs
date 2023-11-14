@@ -5,5 +5,5 @@ namespace Jarvis.Interfaces;
 
 public interface IBotService
 {
-    Task<List<ApiStatus>> NotifyHandling(List<BotEvent> botEvents);
+    Task Notify(BotEvent botEvent);
 }

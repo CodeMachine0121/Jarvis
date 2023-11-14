@@ -1,30 +1,19 @@
-﻿using System.Net;
-using Jarvis.Enums;
-using Jarvis.Interfaces;
+﻿using Jarvis.Interfaces;
 using Jarvis.Models;
-using Jarvis.Services.Handlers;
 
 namespace Jarvis.Services;
 
 public class BotService : IBotService
 {
-    private readonly HandlerSetting _handleSetting;
+    private readonly IEventService _eventService;
 
-    public BotService(HandlerSetting handleSetting)
+    public BotService(IEventService eventService)
     {
-        _handleSetting = handleSetting;
-        _handleSetting.Set();
+        _eventService = eventService;
     }
 
-    public async Task<List<ApiStatus>> NotifyHandling(List<BotEvent> botEvents)
+    public async Task Notify(BotEvent botEvent)
     {
-        var apiStatusList = new List<ApiStatus>();
-
-        botEvents.ForEach(async e =>
-        {
-           apiStatusList.Add(await _handleSetting.Start(e.ToBotEventDto()));
-        });
-
-        return apiStatusList;
+        await _eventService.Handle(botEvent.ToBotEventDto());
     }
 }

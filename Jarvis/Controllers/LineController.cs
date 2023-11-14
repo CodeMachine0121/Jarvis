@@ -19,15 +19,12 @@ public class LineController : ControllerBase
     [HttpPost("Notify")]
     public async Task<ApiResponse> Notify(WebHookEventRequest request)
     {
-        var response = await _botService.NotifyHandling(request.Events.ToList());
+        request.Events.ForEach(async e =>
+        {
+            await _botService.Notify(e);
+        });
 
-        var returnResult = response.Any()
-            ? response.Any(e => e == ApiStatus.Error)
-                ? StatusCodes.Status417ExpectationFailed
-                : StatusCodes.Status200OK
-            : StatusCodes.Status417ExpectationFailed;
-
-        return ApiResponse.SuccessWithData(returnResult);
+        return ApiResponse.SuccessWithData("OK");
     }
 
     // GET

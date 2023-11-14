@@ -8,5 +8,5 @@ public class WebHookEventRequest
     public string Destination { get; set; }
     
     [JsonProperty("events")] 
-    public BotEvent[] Events { get; set; }
+    public List<BotEvent> Events { get; set; }
 }

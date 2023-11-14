@@ -4,23 +4,22 @@ using Jarvis.Models;
 
 namespace Jarvis.Services.EventHandlingServices;
 
-public class UnfollowHandleService : IEventHandleService
+public class UnfollowService : IEventService
 {
-    private readonly IEventHandleService _eventHandleService;
+    private readonly IEventService _eventService;
 
-    public UnfollowHandleService(IEventHandleService eventHandleService)
+    public UnfollowService(IEventService eventService)
     {
-        _eventHandleService = eventHandleService;
+        _eventService = eventService;
     }
 
     public async Task Handle(BotEventDto botEventDto)
     {
-        if (botEventDto.Type.ToLower() ==EventType.unfollow.ToString())
+        if (botEventDto.IsUnfollowEvent())
         {
-
             return;
         }
 
-        await _eventHandleService.Handle(botEventDto);
+        await _eventService.Handle(botEventDto);
     }
 }
